@@ -23,6 +23,9 @@ public class PostService {
     public Post getPostById(Integer id){
         return postRepository.findPostById(id);
     }
+    public Post getPostTitle(String title){return postRepository.findPostByTitle(title);}
+    public List<Post> getPostByUserId(Integer id){return postRepository.getPostByUserId(id);}
+    public List<Post> getAllPostByDateAndBefore(LocalDate date){return postRepository.getAllPostByDateAndBefore(date);}
 
     public void addPost(Post post){
         if (categoryService.getCategoryById(post.getCategoryId()) == null) throw new ApiException("Error:Category not found");

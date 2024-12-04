@@ -22,6 +22,7 @@ public class CategoryService {
     public Category getCategoryById(Integer id){
         return categoryRepository.findCategoryById(id);
     }
+    public Category getCategoryByName(String name){return categoryRepository.findCategoryByName(name);}
     public void addCategory(Category category){
         categoryRepository.save(category);
     }

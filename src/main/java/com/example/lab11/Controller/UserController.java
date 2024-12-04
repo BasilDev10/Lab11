@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
@@ -19,24 +21,29 @@ public class UserController {
     public ResponseEntity getAllUser(){
         return ResponseEntity.ok(userService.getAllUser());
     }
+    @GetMapping("/get-by-range-dates/{from}/{to}")
+    public ResponseEntity getUsersByDateRange(@PathVariable LocalDate from , @PathVariable LocalDate to){
+        return ResponseEntity.ok(userService.getUsersByDateRange(from,to));
+    }
+
     @PostMapping("/add")
     public ResponseEntity addUser(@RequestBody @Valid User user , Errors errors){
-        if (errors.hasErrors())return ResponseEntity.status(400).body((errors.getFieldError().getDefaultMessage()));
+        if (errors.hasErrors())return ResponseEntity.status(400).body(new ApiResponse(errors.getFieldError().getDefaultMessage()));
 
         userService.addUser(user);
-        return ResponseEntity.status(201).body(("User is added"));
+        return ResponseEntity.status(201).body(new ApiResponse("User is added"));
     }
     @PutMapping("/update/{id}")
     public ResponseEntity updateUser(@PathVariable Integer id ,@RequestBody @Valid User user , Errors errors){
-        if (errors.hasErrors())return ResponseEntity.status(400).body((errors.getFieldError().getDefaultMessage()));
+        if (errors.hasErrors())return ResponseEntity.status(400).body(new ApiResponse(errors.getFieldError().getDefaultMessage()));
 
         userService.updateUser(id,user);
-        return ResponseEntity.status(200).body(("User is updated"));
+        return ResponseEntity.status(200).body(new ApiResponse("User is updated"));
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteUser(@PathVariable Integer id ){
 
         userService.deleteUser(id);
-        return ResponseEntity.status(200).body(("User is deleted"));
+        return ResponseEntity.status(200).body(new ApiResponse("User is deleted"));
     }
 }

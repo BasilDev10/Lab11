@@ -23,6 +23,10 @@ public class UserService {
     public User getUserById(Integer id){
         return userRepository.findUserById(id);
     }
+    public List<User> getUsersByDateRange(LocalDate from , LocalDate to){
+        if (from.isAfter(to)) throw new ApiException("Error: date from is greater then date to");
+        return userRepository.getUsersByDateRange(from,to);
+    }
 
     public void addUser(User user){
         user.setRegistrationDate(LocalDate.now());

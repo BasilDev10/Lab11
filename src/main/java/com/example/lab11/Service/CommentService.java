@@ -25,6 +25,13 @@ public class CommentService {
         return commentRepository.findCommentById(id);
     }
 
+    public List<Comment> getCommentByTodayOrBefore(LocalDate date){
+        return commentRepository.findCommentsByCommentDateIsLessThanEqual(date);
+    }
+
+    public List<Comment> getCommentByPostId(Integer id){
+        return commentRepository.getCommentByPostId(id);
+    }
     public void addComment(Comment comment){
 
         if (postService.getPostById(comment.getPostId()) == null) throw new ApiException("Error: post not found");
